@@ -7,8 +7,9 @@
 
 template <class PAR>
 void Sample<PAR>::Resize(int size) {
-  if (size < 0)
+  if (size < 0) {
     throw std::invalid_argument("Size must be positive");
+  }
 
   m_size_x = size;
   m_size_y = size;
@@ -17,8 +18,9 @@ void Sample<PAR>::Resize(int size) {
 
 template <class PAR>
 void Sample<PAR>::Resize(int size_x, int size_y) {
-  if (size_x < 0 || size_y < 0)
+  if (size_x < 0 || size_y < 0) {
     throw std::invalid_argument("Size must be positive");
+  }
 
   m_size_x = size_x;
   m_size_y = size_y;
@@ -42,16 +44,18 @@ int Sample<PAR>::GetSizeY() const {
 
 template <class PAR>
 PAR& Sample<PAR>::operator()(int i, int j) {
-  if (i < 0 || i >= m_size_x || j < 0 || j >= m_size_y)
+  if (i < 0 || i >= m_size_x || j < 0 || j >= m_size_y) {
     throw std::invalid_argument("Invlid index");
+  }
 
   return m_data[i * m_size_x + j];
 }
 
 template <class PAR>
 const PAR& Sample<PAR>::operator()(int i, int j) const {
-  if (i < 0 || i >= m_size_x || j < 0 || j >= m_size_y)
+  if (i < 0 || i >= m_size_x || j < 0 || j >= m_size_y) {
     throw std::invalid_argument("Invlid index");
+  }
 
   return m_data[i * m_size_x + j];
 }
@@ -88,24 +92,27 @@ PAR Sample<PAR>::GetMax() const {
 
 template <class PAR>
 Sample<PAR>& Sample<PAR>::operator+=(PAR value) {
-  for (auto& el : m_data)
+  for (auto& el : m_data) {
     el += value;
+  }
 
   return *this;
 }
 
 template <class PAR>
 Sample<PAR>& Sample<PAR>::operator*=(PAR value) {
-  for (auto& el : m_data)
+  for (auto& el : m_data) {
     el *= value;
+  }
 
   return *this;
 }
 
 template <class PAR>
 Sample<PAR>& Sample<PAR>::operator/=(PAR value) {
-  for (auto& el : m_data)
+  for (auto& el : m_data) {
     el /= value;
+  }
 
   return *this;
 }
@@ -121,33 +128,39 @@ Sample<PAR>& Sample<PAR>::operator=(const Sample<PAR>& temp) {
 
 template <class PAR>
 Sample<PAR>& Sample<PAR>::operator+=(const Sample<PAR>& temp) {
-  if (!IsEqualSize(temp))
+  if (!IsEqualSize(temp)) {
     throw std::invalid_argument("Sizes must match");
+  }
 
-  for (size_t i = 0; i < static_cast<size_t>(GetSize()); ++i)
+  for (size_t i = 0; i < static_cast<size_t>(GetSize()); ++i) {
     m_data[i] += temp.m_data[i];
+  }
 
   return *this;
 }
 
 template <class PAR>
 Sample<PAR>& Sample<PAR>::operator-=(const Sample<PAR>& temp) {
-  if (!IsEqualSize(temp))
+  if (!IsEqualSize(temp)) {
     throw std::invalid_argument("Sizes must match");
+  }
 
-  for (size_t i = 0; i < static_cast<size_t>(GetSize()); ++i)
+  for (size_t i = 0; i < static_cast<size_t>(GetSize()); ++i) {
     m_data[i] -= temp.m_data[i];
+  }
 
   return *this;
 }
 
 template <class PAR>
 Sample<PAR>& Sample<PAR>::operator*=(const Sample<PAR>& temp) {
-  if (!IsEqualSize(temp))
+  if (!IsEqualSize(temp)) {
     throw std::invalid_argument("Sizes must match");
+  }
 
-  for (size_t i = 0; i < static_cast<size_t>(GetSize()); ++i)
+  for (size_t i = 0; i < static_cast<size_t>(GetSize()); ++i) {
     m_data[i] *= temp.m_data[i];
+  }
 
   return *this;
 }
@@ -172,16 +185,18 @@ std::istream& Sample<PAR>::Load(std::istream& out) {
 
   Resize(static_cast<int>(x), static_cast<int>(y));
 
-  for (auto& el : m_data)
+  for (auto& el : m_data) {
     out >> el;
+  }
 
   return out;
 }
 
 template <class PAR>
 void Sample<PAR>::CheckSquare() const {
-  if (!IsSquare())
+  if (!IsSquare()) {
     throw std::logic_error("Sample is not square");
+  }
 }
 
 template class Sample<int>;

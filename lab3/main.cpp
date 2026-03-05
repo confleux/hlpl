@@ -6,7 +6,6 @@
 int main() {
   std::cout << "Testing Sample<int> class\n\n";
 
-  // Resize (square) and basic size checks
   Sample<int> a;
   a.Resize(3);
   std::cout << "After a.Resize(3): "
@@ -16,7 +15,6 @@ int main() {
             << ", IsSquare=" << a.IsSquare()
             << ", IsZeroSize=" << a.IsZeroSize() << "\n";
 
-  // SetValue, element access (non-const) and GetMax
   a.SetValue(5);
   a(0, 0) = 1;
   a(1, 2) = 10;
@@ -24,7 +22,6 @@ int main() {
   std::cout << "a(1, 2) (const access) = " << ca(1, 2) << "\n";
   std::cout << "GetMax(a) = " << a.GetMax() << "\n";
 
-  // GetPointer
   int* ptr = a.GetPointer();
   if (ptr) {
     ptr[0] = 100;
@@ -52,14 +49,12 @@ int main() {
   c.Resize(b.GetSizeX(), b.GetSizeY());
   std::cout << "IsEqualSize(b, c) = " << b.IsEqualSize(c) << "\n\n";
 
-  // Scalar arithmetic operators (+=, *=, /=)
   b.SetValue(1);
-  b += 2;  // all elements become 3
-  b *= 3;  // all elements become 9
-  b /= 3;  // all elements become 3
+  b += 2;
+  b *= 3;
+  b /= 3;
   std::cout << "b(0, 0) after scalar ops (=3) -> " << b(0, 0) << "\n\n";
 
-  // Assignment and element-wise operations (+=, -=, *= with another Sample)
   c.SetValue(5);
   b = c;
   std::cout << "After b = c, b(0, 0) = " << b(0, 0) << "\n";
@@ -68,16 +63,15 @@ int main() {
   d.Resize(b.GetSizeX(), b.GetSizeY());
   d.SetValue(2);
 
-  b += d;  // 5 + 2 = 7
+  b += d;
   std::cout << "After b += d, b(0, 0) = " << b(0, 0) << "\n";
 
-  b -= d;  // 7 - 2 = 5
+  b -= d;
   std::cout << "After b -= d, b(0, 0) = " << b(0, 0) << "\n";
 
-  b *= d;  // 5 * 2 = 10
+  b *= d;
   std::cout << "After b *= d, b(0, 0) = " << b(0, 0) << "\n\n";
 
-  // Save and Load
   std::stringstream ss;
   std::cout << "Saving b to stream:\n";
   b.Save(std::cout);
