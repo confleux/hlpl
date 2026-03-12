@@ -4,3 +4,5 @@ matrix_mul_boost:
 	g++ -std=c++17 -I/opt/homebrew/Cellar/boost/1.90.0_1/include -o bin/mm_boost boost_benchmark.cpp sample_complex.cpp sample.cpp
 matrix_mul_custom:
 	g++ -std=c++17 -o bin/mm_custom matrix_benchmark.cpp sample_complex.cpp sample.cpp matrix.cpp
+fft:
+	g++ -std=c++17 -I/opt/homebrew/Cellar/boost/1.90.0_1/include -I/opt/homebrew/include -o bin/fft sample.cpp sample_complex.cpp fftw_fft.cpp -L/opt/homebrew/lib -lfftw3

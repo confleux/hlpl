@@ -7,3 +7,7 @@
 ### Сравнение нашего умножения и boost
 
 ![Alt text](docs/part2_mm.png)
+
+### FFT
+
+![Alt text](docs/part2_fft.png)
