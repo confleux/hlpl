@@ -1,3 +1,6 @@
+#ifndef SAMPLE_H
+#define SAMPLE_H
+
 #include <iostream>
 #include <vector>
 
@@ -48,7 +51,10 @@ public:
 	// получение указателя на всю выборку
     PAR* GetPointer();
 	// вычисление максимального значения
-    PAR GetMax() const;
+    virtual PAR GetMax() const;
+    
+    PAR* GetDataPointer() { return m_data.data(); }
+    const PAR* GetDataPointer() const { return m_data.data(); }
 
     // операции с выборкой и числом
     // сложение всех элементов выборки и числа
@@ -78,3 +84,5 @@ protected:
     void CheckSquare() const;
 };
 //-------------------------------------------------------------------------------------------------
+
+#endif

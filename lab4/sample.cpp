@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <vector>
+#include <complex>
 
 template <class PAR>
 void Sample<PAR>::Resize(int size) {
@@ -88,6 +89,20 @@ PAR* Sample<PAR>::GetPointer() {
 template <class PAR>
 PAR Sample<PAR>::GetMax() const {
   return *std::max_element(m_data.begin(), m_data.end());
+}
+
+template <>
+std::complex<double> Sample<std::complex<double>>::GetMax() const {
+  if (m_data.empty()) {
+    return std::complex<double>(0, 0);
+  }
+  std::complex<double> max_val = m_data[0];
+  for (size_t i = 1; i < m_data.size(); ++i) {
+    if (std::abs(m_data[i]) > std::abs(max_val)) {
+      max_val = m_data[i];
+    }
+  }
+  return max_val;
 }
 
 template <class PAR>
@@ -200,4 +215,6 @@ void Sample<PAR>::CheckSquare() const {
 }
 
 template class Sample<int>;
+template class Sample<double>;
+template class Sample<std::complex<double>>;
 
