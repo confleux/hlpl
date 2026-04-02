@@ -15,8 +15,6 @@ void CalcFFT::Calc(const Param& oParam_p, Sample<double>& oFunc_p, Sample<double
     SampleComplex sc = SampleComplex::FromSample(oFunc_p);
     CalcFourier(sc);
     
-    // Match reference behavior: store magnitude |F| (not |F|^2)
-    // Sample(i,j) uses i as the first dimension (we treat it as y), j as the second (x)
     for (int y = 0; y < n; ++y) {
         for (int x = 0; x < n; ++x) {
             oRes_p(y, x) = std::abs(sc(y, x));
@@ -87,8 +85,6 @@ void CalcFFT::CalcFourier(SampleComplex& oSample_p) {
         throw std::runtime_error("CalcFFT::CalcFourier: fftw_alloc_complex failed.");
     }
 
-    // FFTW uses row-major layout: idx = row*cols + col
-    // Sample(i,j) uses i as the first dimension (row/y), j as the second (col/x)
     for (int y = 0; y < rows; ++y) {
         for (int x = 0; x < cols; ++x) {
             const size_t idx = static_cast<size_t>(y) * static_cast<size_t>(cols) + static_cast<size_t>(x);
