@@ -1,29 +1,49 @@
-cmake_minimum_required(VERSION 3.10)
+set(CMAKE_AUTOMOC ON)
 
-project(Lab5)
+cmake_minimum_required(VERSION 3.16)
+project(lab6 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+find_package(Qt6 REQUIRED COMPONENTS Widgets PrintSupport)
 
-add_executable(Lab5
+set(FFTW3_LIB_DIR "/opt/homebrew/opt/fftw/lib")
+set(FFTW3_INCLUDE_DIR "/opt/homebrew/opt/fftw/include")
+find_library(FFTW3_LIBRARY NAMES fftw3 PATHS ${FFTW3_LIB_DIR} NO_DEFAULT_PATH)
+
+if(NOT FFTW3_LIBRARY)
+    message(FATAL_ERROR "FFTW3 library not found")
+endif()
+
+set(SOURCES
     main.cpp
-    param.h
-    param.cpp
     mainwindow.cpp
+    calcfft.cpp
+    param.cpp
+    sample.cpp
+    sample_complex.cpp
+    qcustomplot/qcustomplot.cpp
 )
 
-target_include_directories(Lab5 PRIVATE /opt/homebrew/opt/qt/lib/QtWidgets.framework/Headers)
-target_include_directories(Lab5 PRIVATE /opt/homebrew/opt/qt/lib/QtGui.framework/Headers)
-target_include_directories(Lab5 PRIVATE /opt/homebrew/opt/qt/lib/QtCore.framework/Headers)
+set(HEADERS
+    mainwindow.h
+    calcfft.h
+    param.h
+    sample.h
+    sample_complex.h
+    qcustomplot/qcustomplot.h
+)
 
-target_link_libraries(Lab5
-    Qt6::Core
+add_executable(lab6 ${SOURCES} ${HEADERS})
+
+target_include_directories(lab6 PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${FFTW3_INCLUDE_DIR}
+)
+
+target_link_libraries(lab6 PRIVATE
     Qt6::Widgets
-    Qt6::Gui
-)
-
-set_target_properties(Lab5 PROPERTIES
-    COMPILE_OPTIONS "-F;/opt/homebrew/opt/qt/lib"
+    Qt6::PrintSupport
+    ${FFTW3_LIBRARY}
 )

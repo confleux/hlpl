@@ -11,7 +11,9 @@
 #include <QDoubleSpinBox>
 #include <QRadioButton>
 #include <QPushButton>
+#include "qcustomplot/qcustomplot.h"
 #include "param.h"
+#include "calcfft.h"
 
 class MainWindow : public QMainWindow
 {
@@ -75,6 +77,24 @@ private:
     QSpacerItem *verticalSpacerCalc;
     
     Param m_param;
+    CalcFFT m_calcFFT;
+    
+    QVBoxLayout *rightLayout;
+    QHBoxLayout *plotsRowLayout;
+    QCustomPlot *plotFunction;
+    QCustomPlot *plotSpectrum;
+    QCustomPlot *plotFFTResult;
+
+    QCPColorMap *colorMapFunction = nullptr;
+    QCPColorScale *colorScaleFunction = nullptr;
+    QCPColorMap *colorMapSpectrum = nullptr;
+    QCPColorScale *colorScaleSpectrum = nullptr;
+    
+    Sample<double> m_functionData;
+    Sample<double> m_spectrumData;
+    
+    void setupPlots();
+    void updatePlots();
 };
 
 #endif
