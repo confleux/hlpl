@@ -11,6 +11,8 @@
 #include <QRadioButton>
 #include <QPushButton>
 #include <QSpacerItem>
+#include <QElapsedTimer>
+#include <QDebug>
 #include "param.h"
 #include "calcfft.h"
 
@@ -306,9 +308,20 @@ void MainWindow::onCalculateClicked()
 {
     m_functionData = Sample<double>();
     m_spectrumData = Sample<double>();
-    
-    m_calcFFT.Calc(m_param, m_functionData, m_spectrumData);
-    
+
+    constexpr int kIters = 10;
+    QElapsedTimer timer;
+    timer.start();
+    for (int it = 0; it < kIters; ++it) {
+        m_calcFFT.Calc(m_param, m_functionData, m_spectrumData);
+    }
+    const qint64 elapsedNs = timer.nsecsElapsed();
+    const double avgMs = (static_cast<double>(elapsedNs) / 1e6) / static_cast<double>(kIters);
+    qDebug().noquote() << QString("FFT compute avg: %1 ms (N=%2, iters=%3)")
+                          .arg(avgMs, 0, 'f', 3)
+                          .arg(m_param.Get_Size())
+                          .arg(kIters);
+
     updatePlots();
 }
 

@@ -47,3 +47,20 @@ target_link_libraries(lab6 PRIVATE
     Qt6::PrintSupport
     ${FFTW3_LIBRARY}
 )
+
+add_executable(bench_fft
+    bench_fft.cpp
+    calcfft.cpp
+    param.cpp
+    sample.cpp
+    sample_complex.cpp
+)
+
+target_include_directories(bench_fft PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${FFTW3_INCLUDE_DIR}
+)
+
+target_link_libraries(bench_fft PRIVATE
+    ${FFTW3_LIBRARY}
+)
